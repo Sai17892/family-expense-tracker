@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Family Expense Tracker — Shared</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#e5e7eb;--accent:#2563eb;--accent2:#eef4ff;--good:#15803d;--warn:#b45309;--bad:#b91c1c;--shadow:0 10px 30px rgba(15,23,42,.08)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.app{max-width:1200px;margin:auto;padding:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}.topbar{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:16px}.brand h1{margin:0;font-size:clamp(23px,4vw,34px)}.muted{color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}button{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 13px;color:var(--text)}button.primary{background:var(--accent);border-color:var(--accent);color:#fff}button.soft{background:var(--accent2);border-color:#dbe7ff;color:#1d4ed8}button.danger{color:var(--bad)}input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;color:var(--text);border-radius:10px;padding:10px 12px}.auth-shell{max-width:520px;margin:60px auto;padding:18px}.auth-shell h2{margin:0 0 5px}.form-grid{display:grid;gap:11px;margin-top:16px}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.summary{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px;margin:14px 0}.metric b{display:block;font-size:25px;margin-top:5px}.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:12px}.toolbar-left,.toolbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.filters button.active{background:var(--accent2);color:#1d4ed8;border-color:#cddcff}.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle;font-size:14px}th{font-size:12px;color:var(--muted);background:#fafbfc}.money{text-align:right;white-space:nowrap}.check{width:21px;height:21px}.pill{display:inline-block;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:700;background:#f1f5f9;color:#475569}.pill.paid{background:#eaf8ee;color:var(--good)}.pill.over{background:#fff0f0;color:var(--bad)}.pill.due{background:#fff6e8;color:var(--warn)}.side{display:grid;gap:12px;align-content:start}.members{display:grid;gap:8px}.member{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px dashed var(--line)}.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--accent2);color:#1d4ed8;font-weight:800}.member-left{display:flex;align-items:center;gap:9px;min-width:0}.activity{display:grid;gap:9px;max-height:300px;overflow:auto}.activity div{border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:13px}.progress{height:8px;background:#edf0f5;border-radius:99px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--accent)}dialog{border:0;border-radius:16px;padding:0;width:min(560px,calc(100% - 24px));box-shadow:0 25px 80px rgba(0,0,0,.2)}dialog::backdrop{background:rgba(15,23,42,.45)}.modal{padding:18px}.modal h3{margin:0 0 12px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.notice{padding:11px 12px;border:1px solid #dbe7ff;background:#f6f9ff;border-radius:11px;color:#274690;font-size:13px}.error{padding:10px 12px;background:#fff0f0;border:1px solid #fecaca;color:#991b1b;border-radius:10px;font-size:13px}.success{padding:10px 12px;background:#effcf3;border:1px solid #bbf7d0;color:#166534;border-radius:10px;font-size:13px}.setup{max-width:760px;margin:30px auto}.setup ol{padding-left:20px}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0f172a;color:#e2e8f0;border-radius:10px;padding:10px;overflow:auto;font-size:12px}.small{font-size:12px}.mobile-cards{display:none}.fab{display:none}@media(max-width:900px){.summary{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.summary .metric:last-child{grid-column:1/-1}.table-wrap{display:none}.mobile-cards{display:grid;gap:10px}.expense-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px}.expense-head{display:flex;justify-content:space-between;gap:10px}.expense-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.expense-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:11px}.fab{display:block;position:sticky;bottom:12px;margin-left:auto;border-radius:999px;padding:12px 16px;box-shadow:var(--shadow)}}@media(max-width:560px){.app{padding:12px}.summary{grid-template-columns:1fr 1fr}.side{grid-template-columns:1fr}.split{grid-template-columns:1fr}.topbar .actions{width:100%}.topbar .actions button{flex:1}.metric b{font-size:21px}}
@@ -48,7 +49,7 @@
 <div id="mainView" class="app hidden">
   <div class="topbar">
     <div class="brand"><h1>Family Expense Tracker</h1><div class="muted"><span id="householdLabel"></span> · <span id="userLabel"></span></div></div>
-    <div class="actions"><button id="inviteBtn" class="soft">Invite spouse</button><button id="setPasswordBtn">Set password</button><button id="logoutBtn">Sign out</button></div>
+    <div class="actions"><button id="chartsBtn" class="soft">Charts</button><button id="inviteBtn" class="soft">Invite spouse</button><button id="setPasswordBtn">Set password</button><button id="logoutBtn">Sign out</button></div>
   </div>
   <div id="mainMsg"></div>
   <div class="card" id="incomeCard" style="margin-bottom:14px">
@@ -89,6 +90,24 @@
   </div>
 </div>
 
+<div id="chartsView" class="app hidden">
+  <div class="topbar">
+    <div class="brand"><h1>Charts</h1><div class="muted"><span id="chartsHouseholdLabel"></span></div></div>
+    <div class="actions"><button id="backToMain">Back to tracker</button></div>
+  </div>
+  <div class="filters" id="chartPeriod">
+    <button data-period="1" class="active">This month</button>
+    <button data-period="3">3 months</button>
+    <button data-period="6">6 months</button>
+    <button data-period="12">Yearly</button>
+  </div>
+  <div class="card">
+    <h3 id="chartTitle" style="margin-top:0">This month by category</h3>
+    <div id="chartMsg"></div>
+    <div style="position:relative;height:380px"><canvas id="expenseChart"></canvas></div>
+  </div>
+</div>
+
 <dialog id="expenseDialog"><form id="expenseForm" class="modal"><h3 id="expenseTitle">Add expense</h3><input id="expenseId" type="hidden"><div class="form-grid"><label>Expense name<input id="expenseName" required placeholder="House Rent"></label><div class="split"><label>Category<select id="expenseCategory"><option>House Rent/EMI</option><option>Loan</option><option>Maid</option><option>Milk</option><option>Grocery</option><option>Petrol/Fuel</option><option>Credit Card</option><option>Shopping</option><option>Savings/Investment</option><option>Insurance</option><option>Utilities/Bills</option><option>Family Support</option><option>Miscellaneous</option></select></label><label>Due date<input id="expenseDue" type="date"></label></div><div class="split"><label>Planned amount<input id="expensePlanned" type="number" min="0" step="0.01" required></label><label>Actual amount<input id="expenseActual" type="number" min="0" step="0.01" value="0"></label></div><label><input id="expenseRecurring" type="checkbox" style="width:auto"> Repeat every month</label><label>Notes<textarea id="expenseNotes" rows="2"></textarea></label></div><div class="modal-actions"><button id="deleteExpense" type="button" class="danger hidden">Delete</button><button id="cancelExpense" type="button">Cancel</button><button class="primary">Save</button></div></form></dialog>
 
 <dialog id="inviteDialog"><form id="inviteForm" class="modal"><h3>Invite your spouse</h3><p class="muted">Enter your spouse's email. We'll create a secure invite link. You can open your email app with the invitation prefilled, copy the link manually, or email them a passwordless sign-in link directly.</p><div id="inviteMsg"></div><div class="form-grid"><label>Spouse email<input id="inviteEmail" type="email" required></label><button class="primary">Create invite</button><div id="inviteResult" class="hidden"><label>Invite link<input id="inviteLink" readonly></label><div class="split"><button id="emailInvite" type="button" class="soft">Open email</button><button id="copyInvite" type="button">Copy link</button></div><button id="sendMagicInvite" type="button" class="soft">Email a sign-in link (no password needed)</button></div></div><div class="modal-actions"><button id="closeInvite" type="button">Close</button></div></form></dialog>
@@ -103,9 +122,11 @@ const money=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',ma
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 const currentMonth=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
 function shiftDueDate(m,origDate){const day=Number(origDate.slice(8,10));const [y,mo]=m.split('-').map(Number);const lastDay=new Date(y,mo,0).getDate();return m+'-'+String(Math.min(day,lastDay)).padStart(2,'0')}
+function lastNMonths(anchor,n){const [y,mo]=anchor.split('-').map(Number);const out=[];for(let i=n-1;i>=0;i--){const d=new Date(y,mo-1-i,1);out.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}return out}
+function monthLabel(m){const [y,mo]=m.split('-').map(Number);return new Date(y,mo-1,1).toLocaleDateString('en-IN',{month:'short',year:'numeric'})}
 const token=()=>crypto.getRandomValues(new Uint32Array(4)).join('-')+'-'+Date.now().toString(36);
 function msg(el,text,type='error'){el.innerHTML=text?`<div class="${type}">${esc(text)}</div>`:''}
-function show(id){['setupView','authView','onboardView','mainView'].forEach(x=>$('#'+x).classList.add('hidden')); $('#'+id).classList.remove('hidden')}
+function show(id){['setupView','authView','onboardView','mainView','chartsView'].forEach(x=>$('#'+x).classList.add('hidden')); $('#'+id).classList.remove('hidden')}
 const DEFAULT_CFG={url:'https://wzhmllsbfzshjolewang.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6aG1sbHNiZnpzaGpvbGV3YW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMzA3NzIsImV4cCI6MjEwNDYwNjc3Mn0.JOFv5aGs-oLqDgo8UIaLfNUa-Qlr4dlRF-sapGUwmx0'};
 function config(){try{return JSON.parse(localStorage.getItem(CFG)||'null')||DEFAULT_CFG}catch{return DEFAULT_CFG}}
 const clean=s=>s.replace(/[^\x20-\x7E]/g,'').trim();
@@ -141,6 +162,30 @@ $('#logoutBtn').addEventListener('click',async()=>{await sb.auth.signOut();locat
 $('#setPasswordBtn').addEventListener('click',()=>{$('#setPasswordForm').reset();msg($('#setPasswordMsg'),'');$('#setPasswordDialog').showModal()});
 $('#closeSetPassword').addEventListener('click',()=>$('#setPasswordDialog').close());
 $('#setPasswordForm').addEventListener('submit',async e=>{e.preventDefault();const p1=$('#newPassword').value,p2=$('#confirmPassword').value;if(p1!==p2){msg($('#setPasswordMsg'),'Passwords do not match.');return}if(p1.length<6){msg($('#setPasswordMsg'),'Password must be at least 6 characters.');return}const {error}=await sb.auth.updateUser({password:p1});if(error){msg($('#setPasswordMsg'),error.message);return}msg($('#setPasswordMsg'),'Password set! You can sign in with it next time.','success');$('#setPasswordForm').reset()});
+let chartInstance=null, chartPeriod='1';
+async function renderChart(period){chartPeriod=period; $('#chartsHouseholdLabel').textContent=household.name; msg($('#chartMsg'),'');
+const anchor=$('#monthPicker').value||currentMonth(); const n=Number(period); const months=lastNMonths(anchor,n);
+const {data:expData,error:expErr}=await sb.from('expenses').select('month,category,planned,actual').eq('household_id',household.id).in('month',months);
+if(expErr){msg($('#chartMsg'),expErr.message);return}
+let labels,plannedData,actualData,extraLabel=null,extraData=null;
+if(n===1){$('#chartTitle').textContent=monthLabel(anchor)+' by category';
+const byCat={}; (expData||[]).forEach(e=>{const c=e.category||'Miscellaneous'; byCat[c]=byCat[c]||{planned:0,actual:0}; byCat[c].planned+=Number(e.planned||0); byCat[c].actual+=Number(e.actual||0)});
+labels=Object.keys(byCat).sort(); plannedData=labels.map(c=>byCat[c].planned); actualData=labels.map(c=>byCat[c].actual);
+}else{$('#chartTitle').textContent='Last '+n+' months';
+const byMonth={}; months.forEach(m=>byMonth[m]={planned:0,actual:0});
+(expData||[]).forEach(e=>{if(byMonth[e.month]){byMonth[e.month].planned+=Number(e.planned||0);byMonth[e.month].actual+=Number(e.actual||0)}});
+const {data:incData}=await sb.from('monthly_income').select('month,amount').eq('household_id',household.id).in('month',months);
+const incByMonth={}; months.forEach(m=>incByMonth[m]=0); (incData||[]).forEach(r=>{incByMonth[r.month]=(incByMonth[r.month]||0)+Number(r.amount||0)});
+labels=months.map(monthLabel); plannedData=months.map(m=>byMonth[m].planned); actualData=months.map(m=>byMonth[m].actual);
+extraLabel='Total in hand'; extraData=months.map(m=>incByMonth[m]);}
+const datasets=[{label:'Planned',data:plannedData,backgroundColor:'#93c5fd'},{label:'Actual',data:actualData,backgroundColor:'#2563eb'}];
+if(extraData) datasets.push({label:extraLabel,data:extraData,backgroundColor:'#15803d'});
+if(chartInstance) chartInstance.destroy();
+chartInstance=new Chart($('#expenseChart').getContext('2d'),{type:'bar',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,ticks:{callback:v=>money(v)}}}}});
+if(!labels.length) msg($('#chartMsg'),'No data yet for this period.','success')}
+$('#chartsBtn').addEventListener('click',()=>{show('chartsView'); renderChart(chartPeriod)});
+$('#backToMain').addEventListener('click',()=>show('mainView'));
+$('#chartPeriod').addEventListener('click',e=>{const b=e.target.closest('button[data-period]'); if(!b)return; $$('#chartPeriod button').forEach(x=>x.classList.toggle('active',x===b)); renderChart(b.dataset.period)});
 $('#monthPicker').addEventListener('change',async()=>{await loadExpenses();await loadIncome()});$('#addBtn').addEventListener('click',()=>openExpense());$('#mobileAdd').addEventListener('click',()=>openExpense());$('#cancelExpense').addEventListener('click',()=>$('#expenseDialog').close());
 $('#expenseForm').addEventListener('submit',async e=>{e.preventDefault();const id=$('#expenseId').value;const obj={household_id:household.id,month:$('#monthPicker').value,name:$('#expenseName').value.trim(),category:$('#expenseCategory').value,planned:Number($('#expensePlanned').value||0),actual:Number($('#expenseActual').value||0),due_date:$('#expenseDue').value||null,recurring:$('#expenseRecurring').checked,notes:$('#expenseNotes').value.trim()||null,updated_by:user.id,updated_at:new Date().toISOString()};let error;if(id){({error}=await sb.from('expenses').update(obj).eq('id',id))}else{obj.created_by=user.id;({error}=await sb.from('expenses').insert(obj))}if(error){alert(error.message);return}$('#expenseDialog').close();await loadExpenses(); await Promise.all([loadActivity(),loadIncome()])});
 $('#deleteExpense').addEventListener('click',async()=>{if(!confirm('Delete this expense?'))return;const id=$('#expenseId').value;const {error}=await sb.from('expenses').delete().eq('id',id);if(error){alert(error.message);return}$('#expenseDialog').close();await loadExpenses(); await Promise.all([loadActivity(),loadIncome()])});
