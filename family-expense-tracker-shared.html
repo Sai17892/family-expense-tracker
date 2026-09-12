@@ -90,8 +90,10 @@ const currentMonth=()=>new Date().toISOString().slice(0,7);
 const token=()=>crypto.getRandomValues(new Uint32Array(4)).join('-')+'-'+Date.now().toString(36);
 function msg(el,text,type='error'){el.innerHTML=text?`<div class="${type}">${esc(text)}</div>`:''}
 function show(id){['setupView','authView','onboardView','mainView'].forEach(x=>$('#'+x).classList.add('hidden')); $('#'+id).classList.remove('hidden')}
-function config(){try{return JSON.parse(localStorage.getItem(CFG)||'null')}catch{return null}}
-function saveConfig(url,key){localStorage.setItem(CFG,JSON.stringify({url:url.trim(),key:key.trim()}))}
+const DEFAULT_CFG={url:'https://wzhmllsbfzshjolewang.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind6aG1sbHNiZnpzaGpvbGV3YW5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMzA3NzIsImV4cCI6MjEwNDYwNjc3Mn0.JOFv5aGs-oLqDgo8UIaLfNUa-Qlr4dlRF-sapGUwmx0'};
+function config(){try{return JSON.parse(localStorage.getItem(CFG)||'null')||DEFAULT_CFG}catch{return DEFAULT_CFG}}
+const clean=s=>s.replace(/[^\x20-\x7E]/g,'').trim();
+function saveConfig(url,key){localStorage.setItem(CFG,JSON.stringify({url:clean(url),key:clean(key)}))}
 async function init(){const c=config(); if(!c){show('setupView');return} try{sb=supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}); const {data:{session}}=await sb.auth.getSession(); if(!session){show('authView');return} user=session.user; await afterLogin()}catch(e){show('setupView');msg($('#setupView'),e.message)}}
 async function afterLogin(){user=(await sb.auth.getUser()).data.user; const invite=new URLSearchParams(location.search).get('invite'); if(invite){const {data,error}=await sb.rpc('accept_invitation',{p_token:invite}); if(error){alert(error.message)} else {history.replaceState({},'',location.pathname);}}
 const {data:hm,error}=await sb.from('household_members').select('household_id,role,households(id,name)').eq('user_id',user.id).limit(1); if(error){alert(error.message);return} if(!hm?.length){show('onboardView');return} household=hm[0].households; role=hm[0].role; await loadAll(); show('mainView')}
