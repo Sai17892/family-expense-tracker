@@ -89,9 +89,19 @@ th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04
 
 dialog{border:0;border-radius:var(--card-radius);padding:0;width:min(560px,calc(100% - 24px));box-shadow:0 12px 32px rgba(13,12,34,.16);animation:popIn .18s var(--ease)}
 dialog::backdrop{background:rgba(13,12,34,.4)}
-.modal{padding:18px}
-.modal h3{margin:0 0 12px;font-size:18px}
+.modal{padding:20px}
+.modal h3{margin:0;font-size:18px;font-weight:700}
+.modal-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.modal-icon{width:32px;height:32px;border-radius:50%;background:var(--elevated);display:grid;place-items:center;flex-shrink:0;color:var(--text)}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}
+.form-grid label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.form-grid label.checkbox-label{display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:normal;font-size:14px;font-weight:400;color:var(--text)}
+.form-grid label>input,.form-grid label>select,.form-grid label>textarea,.form-grid label>.input-prefix{margin-top:6px;text-transform:none;letter-spacing:normal;font-weight:400;font-size:14px;color:var(--text)}
+.input-prefix{position:relative}
+.input-prefix span{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
+.input-prefix input{padding-left:26px}
+.divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:2px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--line)}
 
 .mobile-cards{display:none}
 .fab{display:none}
@@ -243,11 +253,47 @@ dialog::backdrop{background:rgba(13,12,34,.4)}
   </main>
 </div>
 
-<dialog id="expenseDialog"><form id="expenseForm" class="modal"><h3 id="expenseTitle">Add expense</h3><input id="expenseId" type="hidden"><div class="form-grid"><label>Expense name<input id="expenseName" required placeholder="House Rent"></label><div class="split"><label>Category<select id="expenseCategory"><option>House Rent/EMI</option><option>Loan</option><option>Maid</option><option>Milk</option><option>Grocery</option><option>Petrol/Fuel</option><option>Credit Card</option><option>Shopping</option><option>Savings/Investment</option><option>Insurance</option><option>Utilities/Bills</option><option>Family Support</option><option>Miscellaneous</option></select></label><label>Due date<input id="expenseDue" type="date"></label></div><div class="split"><label>Planned amount<input id="expensePlanned" type="number" min="0" step="0.01" required></label><label>Actual amount<input id="expenseActual" type="number" min="0" step="0.01" value="0"></label></div><label><input id="expenseRecurring" type="checkbox" style="width:auto"> Repeat every month</label><label>Notes<textarea id="expenseNotes" rows="2"></textarea></label></div><div class="modal-actions"><button id="deleteExpense" type="button" class="danger hidden">Delete</button><button id="cancelExpense" type="button">Cancel</button><button class="primary">Save</button></div></form></dialog>
+<dialog id="expenseDialog"><form id="expenseForm" class="modal">
+<div class="modal-header"><div class="modal-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 8h6M9 12h6"/></svg></div><h3 id="expenseTitle">Add expense</h3></div>
+<input id="expenseId" type="hidden">
+<div class="form-grid">
+<label>Expense name<input id="expenseName" required placeholder="House Rent"></label>
+<div class="split"><label>Category<select id="expenseCategory"><option>House Rent/EMI</option><option>Loan</option><option>Maid</option><option>Milk</option><option>Grocery</option><option>Petrol/Fuel</option><option>Credit Card</option><option>Shopping</option><option>Savings/Investment</option><option>Insurance</option><option>Utilities/Bills</option><option>Family Support</option><option>Miscellaneous</option></select></label><label>Due date<input id="expenseDue" type="date"></label></div>
+<div class="split"><label>Planned amount<div class="input-prefix"><span>₹</span><input id="expensePlanned" type="number" min="0" step="0.01" required></div></label><label>Actual amount<div class="input-prefix"><span>₹</span><input id="expenseActual" type="number" min="0" step="0.01" value="0"></div></label></div>
+<label class="checkbox-label"><input id="expenseRecurring" type="checkbox" style="width:auto"> Repeat every month</label>
+<label>Notes<textarea id="expenseNotes" rows="2"></textarea></label>
+</div>
+<div class="modal-actions"><button id="deleteExpense" type="button" class="danger hidden">Delete</button><button id="cancelExpense" type="button">Cancel</button><button class="primary">Save</button></div>
+</form></dialog>
 
-<dialog id="inviteDialog"><form id="inviteForm" class="modal"><h3>Invite your spouse</h3><p class="muted">Enter your spouse's email. We'll create a secure invite link. You can open your email app with the invitation prefilled, copy the link manually, or email them a passwordless sign-in link directly.</p><div id="inviteMsg"></div><div class="form-grid"><label>Spouse email<input id="inviteEmail" type="email" required></label><button class="primary">Create invite</button><div id="inviteResult" class="hidden"><label>Invite link<input id="inviteLink" readonly></label><div class="split"><button id="emailInvite" type="button" class="soft">Open email</button><button id="copyInvite" type="button">Copy link</button></div><button id="sendMagicInvite" type="button" class="soft">Email a sign-in link (no password needed)</button></div></div><div class="modal-actions"><button id="closeInvite" type="button">Close</button></div></form></dialog>
+<dialog id="inviteDialog"><form id="inviteForm" class="modal">
+<div class="modal-header"><div class="modal-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><path d="M19 8v5M16.5 10.5h5"/></svg></div><h3>Invite your spouse</h3></div>
+<p class="muted">Enter your spouse's email. We'll create a secure invite link. You can email them a passwordless sign-in link directly, or share the link yourself.</p>
+<div id="inviteMsg"></div>
+<div class="form-grid">
+<label>Spouse email<input id="inviteEmail" type="email" required></label>
+<button class="primary">Create invite</button>
+<div id="inviteResult" class="hidden">
+<button id="sendMagicInvite" type="button" class="primary">Email a sign-in link (no password needed)</button>
+<div class="divider">or share the link yourself</div>
+<label>Invite link<input id="inviteLink" readonly></label>
+<div class="split"><button id="emailInvite" type="button" class="soft">Open email</button><button id="copyInvite" type="button" class="soft">Copy link</button></div>
+</div>
+</div>
+<div class="modal-actions"><button id="closeInvite" type="button">Close</button></div>
+</form></dialog>
 
-<dialog id="setPasswordDialog"><form id="setPasswordForm" class="modal"><h3>Set a password</h3><p class="muted">Set a password for this account so you can sign in directly next time instead of using a magic link.</p><div id="setPasswordMsg"></div><div class="form-grid"><label>New password<input id="newPassword" type="password" minlength="6" required autocomplete="new-password"></label><label>Confirm password<input id="confirmPassword" type="password" minlength="6" required autocomplete="new-password"></label><button class="primary">Save password</button></div><div class="modal-actions"><button id="closeSetPassword" type="button">Close</button></div></form></dialog>
+<dialog id="setPasswordDialog"><form id="setPasswordForm" class="modal">
+<div class="modal-header"><div class="modal-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><h3>Set a password</h3></div>
+<p class="muted">Set a password for this account so you can sign in directly next time instead of using a magic link.</p>
+<div id="setPasswordMsg"></div>
+<div class="form-grid">
+<label>New password<input id="newPassword" type="password" minlength="6" required autocomplete="new-password"></label>
+<label>Confirm password<input id="confirmPassword" type="password" minlength="6" required autocomplete="new-password"></label>
+<button class="primary">Save password</button>
+</div>
+<div class="modal-actions"><button id="closeSetPassword" type="button">Close</button></div>
+</form></dialog>
 
 <script>
 (()=>{
