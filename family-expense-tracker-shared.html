@@ -19,19 +19,21 @@
 }
 @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
-@keyframes auroraShift{0%{background-position:0% 0%,100% 0%,50% 100%,0 0}100%{background-position:12% 8%,88% 14%,54% 92%,0 0}}
+@keyframes auroraShift{0%{background-position:0% 0%,100% 0%,100% 100%,0% 100%,50% 50%,0 0}100%{background-position:14% 10%,86% 16%,88% 86%,10% 90%,54% 46%,0 0}}
 *{box-sizing:border-box}
 body{
 margin:0;color:var(--text);
 font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Mona Sans',Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-background-color:#0a0f1f;
+background-color:#0a0a18;
 background-image:
-radial-gradient(ellipse 900px 650px at 8% -8%, rgba(232,184,126,.20), transparent 60%),
-radial-gradient(ellipse 950px 750px at 108% 8%, rgba(122,142,196,.22), transparent 60%),
-radial-gradient(ellipse 1100px 850px at 50% 115%, rgba(27,37,64,.7), transparent 60%),
-linear-gradient(160deg,#0a0f1f 0%,#141d38 45%,#1b2540 100%);
-background-attachment:fixed;background-size:200% 200%,200% 200%,200% 200%,100% 100%;
-animation:auroraShift 40s var(--ease) infinite alternate;
+radial-gradient(ellipse 750px 650px at 6% -4%, rgba(139,92,246,.40), transparent 60%),
+radial-gradient(ellipse 800px 680px at 102% 6%, rgba(236,72,153,.36), transparent 60%),
+radial-gradient(ellipse 850px 720px at 96% 100%, rgba(249,115,22,.32), transparent 60%),
+radial-gradient(ellipse 800px 680px at 0% 98%, rgba(20,184,166,.36), transparent 60%),
+radial-gradient(ellipse 950px 820px at 50% 48%, rgba(59,130,246,.20), transparent 65%),
+linear-gradient(160deg,#0a0a18 0%,#100e22 50%,#170f24 100%);
+background-attachment:fixed;background-size:200% 200%,200% 200%,200% 200%,200% 200%,200% 200%,100% 100%;
+animation:auroraShift 45s var(--ease) infinite alternate;
 min-height:100vh
 }
 button,input,select,textarea{font:inherit}
@@ -46,8 +48,8 @@ input::placeholder,textarea::placeholder{color:rgba(245,246,251,.38)}
 .small{font-size:12px}
 button{border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:var(--btn-radius);padding:10px 14px;color:var(--text);font-weight:500;font-size:14px}
 button:hover{background:var(--glass-strong)}
-button.primary{background:linear-gradient(135deg,#f2cd9c,#d99a5b);border-color:rgba(255,255,255,.45);color:var(--on-accent);font-weight:700;box-shadow:0 6px 20px rgba(217,154,91,.4),inset 0 1px 0 rgba(255,255,255,.5)}
-button.primary:hover{box-shadow:0 8px 26px rgba(217,154,91,.55),inset 0 1px 0 rgba(255,255,255,.6)}
+button.primary{background:linear-gradient(120deg,#8b5cf6,#ec4899 55%,#f97316);border-color:rgba(255,255,255,.5);color:#fff;font-weight:700;box-shadow:0 6px 22px rgba(236,72,153,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+button.primary:hover{box-shadow:0 9px 28px rgba(236,72,153,.5),inset 0 1px 0 rgba(255,255,255,.5)}
 button.soft{background:rgba(255,255,255,.11);border-color:var(--glass-border)}
 button.danger{color:#fca5a5}
 input,select,textarea{width:100%;border:1px solid var(--glass-border);background:rgba(255,255,255,.07);color:var(--text);border-radius:var(--input-radius);padding:10px 12px}
@@ -72,7 +74,7 @@ select option{color:#111;background:#fff}
 .nav-label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:0 8px;margin-bottom:8px;font-weight:600}
 .nav-item{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;backdrop-filter:none;border-radius:var(--btn-radius);padding:9px 10px;font-size:14px;color:var(--text);font-weight:500}
 .nav-item:hover{background:rgba(255,255,255,.1)}
-.nav-item.active{background:rgba(255,255,255,.16);border-color:var(--glass-border);font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.nav-item.active{background:linear-gradient(120deg,rgba(139,92,246,.28),rgba(236,72,153,.2));border-color:rgba(255,255,255,.32);font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
 .sidebar-bottom{margin-top:auto;padding-top:12px;border-top:1px solid var(--glass-border)}
 .shell-main{padding:28px 32px;max-width:1180px;width:100%}
 .shell-header{margin-bottom:22px}
@@ -81,12 +83,18 @@ select option{color:#111;background:#fff}
 
 .summary{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px;margin:14px 0}
 .metric-icon{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;margin-bottom:12px;color:var(--text)}
+.metric.c-violet .metric-icon{background:rgba(139,92,246,.24);color:#c4b5fd;box-shadow:0 0 0 1px rgba(139,92,246,.3) inset}
+.metric.c-blue .metric-icon{background:rgba(59,130,246,.24);color:#93c5fd;box-shadow:0 0 0 1px rgba(59,130,246,.3) inset}
+.metric.c-orange .metric-icon{background:rgba(249,115,22,.24);color:#fdba74;box-shadow:0 0 0 1px rgba(249,115,22,.3) inset}
+.metric.c-teal .metric-icon{background:rgba(20,184,166,.24);color:#5eead4;box-shadow:0 0 0 1px rgba(20,184,166,.3) inset}
+.metric.c-pink .metric-icon{background:rgba(236,72,153,.24);color:#f9a8d4;box-shadow:0 0 0 1px rgba(236,72,153,.3) inset}
+.metric.c-amber .metric-icon{background:rgba(245,158,11,.24);color:#fcd34d;box-shadow:0 0 0 1px rgba(245,158,11,.3) inset}
 .metric b{display:block;font-size:24px;margin-top:5px;font-variant-numeric:tabular-nums;font-weight:700;color:#fff}
 .toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 .toolbar-left,.toolbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
 .filters button{border-radius:var(--chip-radius)}
-.filters button.active{background:linear-gradient(135deg,#f2cd9c,#d99a5b);color:var(--on-accent);border-color:rgba(255,255,255,.45);font-weight:700}
+.filters button.active{background:linear-gradient(120deg,#8b5cf6,#ec4899 55%,#f97316);color:#fff;border-color:rgba(255,255,255,.5);font-weight:700}
 .layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px}
 .table-wrap{overflow:auto;border:1px solid var(--glass-border);border-radius:var(--card-radius);background:rgba(14,20,40,.55);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%)}
 table{width:100%;border-collapse:collapse;min-width:780px}
@@ -103,12 +111,12 @@ th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04
 .side{display:grid;gap:12px;align-content:start}
 .members{display:grid;gap:8px}
 .member{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px dashed var(--line)}
-.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#f2cd9c,#c98c53);color:var(--on-accent);font-weight:800;box-shadow:0 3px 10px rgba(217,154,91,.4)}
+.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff;font-weight:800;box-shadow:0 3px 10px rgba(139,92,246,.4)}
 .member-left{display:flex;align-items:center;gap:9px;min-width:0}
 .activity{display:grid;gap:9px;max-height:300px;overflow:auto}
 .activity div{border-bottom:1px dashed var(--line);padding-bottom:8px;font-size:13px}
 .progress{height:6px;background:rgba(255,255,255,.12);border-radius:var(--chip-radius);overflow:hidden;margin-top:8px}
-.progress span{display:block;height:100%;background:linear-gradient(90deg,#f2cd9c,#d99a5b);transition:width .6s var(--ease)}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,#8b5cf6,#ec4899,#f97316);transition:width .6s var(--ease)}
 .income-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.09);border:1px solid var(--glass-border);border-radius:999px;padding:5px 6px 5px 5px}
 
 dialog{border:0;border-radius:24px;padding:0;width:min(560px,calc(100% - 24px));background:linear-gradient(160deg,rgba(34,44,76,.88),rgba(16,22,42,.92));backdrop-filter:blur(34px) saturate(160%);-webkit-backdrop-filter:blur(34px) saturate(160%);border:1px solid var(--glass-border);box-shadow:0 24px 70px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.18);color:var(--text);animation:popIn .2s var(--ease)}
@@ -148,7 +156,7 @@ dialog::backdrop{background:rgba(4,7,16,.6);backdrop-filter:blur(4px)}
 .expense-head{display:flex;justify-content:space-between;gap:10px}
 .expense-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .expense-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:11px}
-.fab{display:block;position:sticky;bottom:12px;margin-left:auto;border-radius:999px;padding:12px 16px;box-shadow:0 10px 28px rgba(217,154,91,.4)}
+.fab{display:block;position:sticky;bottom:12px;margin-left:auto;border-radius:999px;padding:12px 16px;box-shadow:0 10px 28px rgba(236,72,153,.4)}
 }
 @media(max-width:560px){
 .shell-main{padding:12px}
@@ -237,12 +245,12 @@ dialog::backdrop{background:rgba(4,7,16,.6);backdrop-filter:blur(4px)}
         <div class="toolbar-right"><button id="addBtn" class="primary">+ Add expense</button></div>
       </div>
       <div class="summary">
-        <div class="card metric"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16" cy="14" r="1" fill="currentColor" stroke="none"/></svg></div><span class="muted">Total in hand</span><b id="mIncome">₹0</b></div>
-        <div class="card metric"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg></div><span class="muted">Planned</span><b id="mPlanned">₹0</b></div>
-        <div class="card metric"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 8h6M9 12h6"/></svg></div><span class="muted">Actual spent</span><b id="mActual">₹0</b></div>
-        <div class="card metric"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><span class="muted">Remaining</span><b id="mRemaining">₹0</b></div>
-        <div class="card metric"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg></div><span class="muted">Pending</span><b id="mPending">0</b></div>
-        <div class="card metric"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div><span class="muted">Completed</span><b id="mComplete">0%</b><div class="progress"><span id="progressBar" style="width:0%"></span></div></div>
+        <div class="card metric c-violet"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16" cy="14" r="1" fill="currentColor" stroke="none"/></svg></div><span class="muted">Total in hand</span><b id="mIncome">₹0</b></div>
+        <div class="card metric c-blue"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg></div><span class="muted">Planned</span><b id="mPlanned">₹0</b></div>
+        <div class="card metric c-orange"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3z"/><path d="M9 8h6M9 12h6"/></svg></div><span class="muted">Actual spent</span><b id="mActual">₹0</b></div>
+        <div class="card metric c-teal"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><span class="muted">Remaining</span><b id="mRemaining">₹0</b></div>
+        <div class="card metric c-pink"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg></div><span class="muted">Pending</span><b id="mPending">0</b></div>
+        <div class="card metric c-amber"><div class="metric-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div><span class="muted">Completed</span><b id="mComplete">0%</b><div class="progress"><span id="progressBar" style="width:0%"></span></div></div>
       </div>
       <div class="filters" id="filters"><button data-filter="all" class="active">All</button><button data-filter="pending">Pending</button><button data-filter="completed">Completed</button><button data-filter="over">Over budget</button></div>
       <div class="layout">
@@ -343,15 +351,17 @@ async function init(){const c=config(); if(!c){show('setupView');return} try{sb=
 async function ensureProfile(){const {data:existing}=await sb.from('profiles').select('id').eq('id',user.id).maybeSingle(); if(existing)return; const guess=(user.email.split('@')[0].replace(/[^a-zA-Z]/g,'')||'Member'); const name=guess.charAt(0).toUpperCase()+guess.slice(1); await sb.from('profiles').insert({id:user.id,email:user.email,display_name:name})}
 async function loadProfiles(ids){const uniq=[...new Set(ids)].filter(Boolean); if(!uniq.length)return; const {data}=await sb.from('profiles').select('id,display_name,email').in('id',uniq); (data||[]).forEach(p=>profileMap[p.id]=p.display_name||p.email.split('@')[0])}
 function nameFor(id){return profileMap[id]||'Someone'}
+const AVATAR_GRADIENTS=['linear-gradient(135deg,#8b5cf6,#ec4899)','linear-gradient(135deg,#3b82f6,#06b6d4)','linear-gradient(135deg,#f97316,#f59e0b)','linear-gradient(135deg,#14b8a6,#22c55e)','linear-gradient(135deg,#ec4899,#f43f5e)','linear-gradient(135deg,#a855f7,#3b82f6)'];
+function avatarStyle(id){let h=0; for(const c of String(id||'')) h=(h*31+c.charCodeAt(0))>>>0; return `background:${AVATAR_GRADIENTS[h%AVATAR_GRADIENTS.length]}`}
 async function afterLogin(){user=(await sb.auth.getUser()).data.user; await ensureProfile(); const invite=new URLSearchParams(location.search).get('invite'); if(invite){const {data,error}=await sb.rpc('accept_invitation',{p_token:invite}); if(error){alert(error.message)} else {history.replaceState({},'',location.pathname);}}
 const {data:hm,error}=await sb.from('household_members').select('household_id,role,households(id,name)').eq('user_id',user.id).limit(1); if(error){alert(error.message);return} if(!hm?.length){show('onboardView');return} household=hm[0].households; role=hm[0].role; await loadAll(); show('appShell'); showPane('dashboard')}
 async function loadAll(){if(!$('#monthPicker').value) $('#monthPicker').value=currentMonth(); $('#householdLabel').textContent=household.name; $('#userLabel').textContent=nameFor(user.id)||user.email; await Promise.all([loadExpenses(),loadMembers(),loadActivity()]); await loadIncome(); $('#welcomeHeading').textContent='Welcome back, '+(nameFor(user.id)||'')}
 async function loadExpenses(){const {data,error}=await sb.from('expenses').select('*').eq('household_id',household.id).eq('month',$('#monthPicker').value).order('created_at'); if(error){msg($('#mainMsg'),error.message);return} expenses=data||[]; renderExpenses()}
 async function loadIncome(){const m=$('#monthPicker').value; const {data,error}=await sb.from('monthly_income').select('user_id,amount').eq('household_id',household.id).eq('month',m); if(error){$('#incomeRows').innerHTML=`<div class="error">${esc(error.message)}</div>`;return} const byUser={}; (data||[]).forEach(r=>byUser[r.user_id]=Number(r.amount)); const total=Object.values(byUser).reduce((s,n)=>s+n,0); const actual=expenses.reduce((s,e)=>s+Number(e.actual||0),0);
-$('#incomeRows').innerHTML=members.map(mem=>{const amt=byUser[mem.user_id]||0,nm=nameFor(mem.user_id);return `<div class="income-chip"><div class="avatar" style="width:24px;height:24px;font-size:11px">${esc(nm[0]||'?')}</div><span style="font-size:13px"><b>${esc(nm)}${mem.user_id===user.id?' (You)':''}</b> · ${money(amt)}</span>${mem.user_id===user.id?'<button type="button" class="editIncome small" style="padding:4px 9px;border-radius:999px">Edit</button>':''}</div>`}).join('')||'<div class="muted">No members yet.</div>';
+$('#incomeRows').innerHTML=members.map(mem=>{const amt=byUser[mem.user_id]||0,nm=nameFor(mem.user_id);return `<div class="income-chip"><div class="avatar" style="width:24px;height:24px;font-size:11px;${avatarStyle(mem.user_id)}">${esc(nm[0]||'?')}</div><span style="font-size:13px"><b>${esc(nm)}${mem.user_id===user.id?' (You)':''}</b> · ${money(amt)}</span>${mem.user_id===user.id?'<button type="button" class="editIncome small" style="padding:4px 9px;border-radius:999px">Edit</button>':''}</div>`}).join('')||'<div class="muted">No members yet.</div>';
 animateNumber($('#incomeTotal'),total); animateNumber($('#incomeBalance'),total-actual); animateNumber($('#mIncome'),total);
 $$('.editIncome').forEach(b=>b.addEventListener('click',async()=>{const cur=byUser[user.id]||0;const raw=prompt('Your money in hand for '+m+':',cur);if(raw===null)return;const next=Number(raw);if(isNaN(next)||next<0){alert('Enter a valid non-negative number.');return}const {error}=await sb.from('monthly_income').upsert({household_id:household.id,user_id:user.id,month:m,amount:next,updated_at:new Date().toISOString()},{onConflict:'household_id,user_id,month'});if(error){alert(error.message);return}await loadIncome()}))}
-async function loadMembers(){const {data}=await sb.from('household_members').select('user_id,role,joined_at').eq('household_id',household.id); members=data||[]; await loadProfiles(members.map(m=>m.user_id)); $('#userLabel').textContent=nameFor(user.id); $('#members').innerHTML=members.map(m=>{const nm=nameFor(m.user_id);return `<div class="member"><div class="member-left"><div class="avatar">${esc(nm[0]||'?')}</div><div><b>${esc(nm)}${m.user_id===user.id?' (You)':''}</b><div class="muted">${esc(m.role)}</div></div></div>${m.user_id===user.id?'<button type="button" class="renameSelf small">Rename</button>':'<span class="pill">Shared</span>'}</div>`}).join('')||'<div class="muted">Only you so far.</div>'; $$('.renameSelf').forEach(b=>b.addEventListener('click',async()=>{const cur=nameFor(user.id);const next=prompt('Your display name (shown to household members):',cur);if(!next||!next.trim()||next.trim()===cur)return;const {error}=await sb.from('profiles').update({display_name:next.trim()}).eq('id',user.id);if(error){alert(error.message);return}profileMap[user.id]=next.trim();await Promise.all([loadMembers(),loadActivity()])}))}
+async function loadMembers(){const {data}=await sb.from('household_members').select('user_id,role,joined_at').eq('household_id',household.id); members=data||[]; await loadProfiles(members.map(m=>m.user_id)); $('#userLabel').textContent=nameFor(user.id); $('#members').innerHTML=members.map(m=>{const nm=nameFor(m.user_id);return `<div class="member"><div class="member-left"><div class="avatar" style="${avatarStyle(m.user_id)}">${esc(nm[0]||'?')}</div><div><b>${esc(nm)}${m.user_id===user.id?' (You)':''}</b><div class="muted">${esc(m.role)}</div></div></div>${m.user_id===user.id?'<button type="button" class="renameSelf small">Rename</button>':'<span class="pill">Shared</span>'}</div>`}).join('')||'<div class="muted">Only you so far.</div>'; $$('.renameSelf').forEach(b=>b.addEventListener('click',async()=>{const cur=nameFor(user.id);const next=prompt('Your display name (shown to household members):',cur);if(!next||!next.trim()||next.trim()===cur)return;const {error}=await sb.from('profiles').update({display_name:next.trim()}).eq('id',user.id);if(error){alert(error.message);return}profileMap[user.id]=next.trim();await Promise.all([loadMembers(),loadActivity()])}))}
 async function loadActivity(){const {data}=await sb.from('activity_log').select('*').eq('household_id',household.id).order('created_at',{ascending:false}).limit(12); await loadProfiles((data||[]).map(a=>a.user_id)); $('#activity').innerHTML=(data||[]).map(a=>`<div><b>${esc(nameFor(a.user_id))}</b> ${esc(a.action)} <b>${esc(a.expense_name||'Expense')}</b> · ${new Date(a.created_at).toLocaleString('en-IN')}</div>`).join('')||'<div class="muted">No activity yet.</div>'}
 function status(e){const planned=Number(e.planned),actual=Number(e.actual),over=planned>0&&actual>planned; if(over&&e.completed) return ['Paid (over budget)','over']; if(over) return ['Over budget','over']; if(e.completed) return ['Paid','paid']; if(e.due_date){const d=new Date(e.due_date+'T00:00:00'); const n=new Date(); const diff=(d-n)/86400000; if(diff<0) return ['Overdue','over']; if(diff<=5) return ['Due soon','due']} return ['Planned','']}
 function visible(){return expenses.filter(e=>filter==='all'||(filter==='pending'&&!e.completed)||(filter==='completed'&&e.completed)||(filter==='over'&&Number(e.planned)>0&&Number(e.actual)>Number(e.planned)))}
@@ -372,7 +382,7 @@ $('#closeSetPassword').addEventListener('click',()=>$('#setPasswordDialog').clos
 $('#setPasswordForm').addEventListener('submit',async e=>{e.preventDefault();const p1=$('#newPassword').value,p2=$('#confirmPassword').value;if(p1!==p2){msg($('#setPasswordMsg'),'Passwords do not match.');return}if(p1.length<6){msg($('#setPasswordMsg'),'Password must be at least 6 characters.');return}const {error}=await sb.auth.updateUser({password:p1});if(error){msg($('#setPasswordMsg'),error.message);return}msg($('#setPasswordMsg'),'Password set! You can sign in with it next time.','success');$('#setPasswordForm').reset()});
 let chartInstance=null, chartPeriod='1', chartType='bar';
 function gradientFill(ctx,c1,c2){const g=ctx.createLinearGradient(0,0,0,340); g.addColorStop(0,c1); g.addColorStop(1,c2); return g}
-const CAT_COLORS=['#e8b87e','#7a8ec4','#6ee7b7','#f0a3a3','#c9a7f0','#f6d97a','#86d1e0','#e39bd6','#a8d18d','#f0b07e'];
+const CAT_COLORS=['#8b5cf6','#3b82f6','#f97316','#14b8a6','#ec4899','#f59e0b','#22c55e','#06b6d4','#a855f7','#f43f5e'];
 const GRID_COLOR='rgba(255,255,255,.08)', TICK_COLOR='rgba(245,246,251,.7)';
 async function renderChart(period){chartPeriod=period; msg($('#chartMsg'),'');
 const anchor=$('#monthPicker').value||currentMonth(); const n=Number(period); const months=lastNMonths(anchor,n);
@@ -386,14 +396,14 @@ if(!labels.length){msg($('#chartMsg'),'No data yet for this period.','success');
 if(chartType==='doughnut'){const actualData=labels.map(c=>byCat[c].actual);
 chartInstance=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data:actualData,backgroundColor:labels.map((_,i)=>CAT_COLORS[i%CAT_COLORS.length]),borderWidth:2,borderColor:'rgba(10,15,31,.9)'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:TICK_COLOR}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
 }else{const plannedData=labels.map(c=>byCat[c].planned), actualData=labels.map(c=>byCat[c].actual);
-chartInstance=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Planned',data:plannedData,backgroundColor:gradientFill(ctx,'rgba(122,142,196,.55)','rgba(122,142,196,.2)'),borderRadius:6},{label:'Actual',data:actualData,backgroundColor:gradientFill(ctx,'#f2cd9c','#d99a5b'),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:TICK_COLOR}}},scales:{y:{beginAtZero:true,grid:{color:GRID_COLOR},ticks:{color:TICK_COLOR,callback:v=>money(v)}},x:{grid:{display:false},ticks:{color:TICK_COLOR}}}}});
+chartInstance=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Planned',data:plannedData,backgroundColor:gradientFill(ctx,'#60a5fa','#3b82f6'),borderRadius:6},{label:'Actual',data:actualData,backgroundColor:gradientFill(ctx,'#fb923c','#ec4899'),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:TICK_COLOR}}},scales:{y:{beginAtZero:true,grid:{color:GRID_COLOR},ticks:{color:TICK_COLOR,callback:v=>money(v)}},x:{grid:{display:false},ticks:{color:TICK_COLOR}}}}});
 }}else{$('#chartTitle').textContent='Last '+n+' months';
 const byMonth={}; months.forEach(m=>byMonth[m]={planned:0,actual:0});
 (expData||[]).forEach(e=>{if(byMonth[e.month]){byMonth[e.month].planned+=Number(e.planned||0);byMonth[e.month].actual+=Number(e.actual||0)}});
 const {data:incData}=await sb.from('monthly_income').select('month,amount').eq('household_id',household.id).in('month',months);
 const incByMonth={}; months.forEach(m=>incByMonth[m]=0); (incData||[]).forEach(r=>{incByMonth[r.month]=(incByMonth[r.month]||0)+Number(r.amount||0)});
 const labels=months.map(monthLabel), plannedData=months.map(m=>byMonth[m].planned), actualData=months.map(m=>byMonth[m].actual), inHandData=months.map(m=>incByMonth[m]);
-chartInstance=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Planned',data:plannedData,backgroundColor:gradientFill(ctx,'rgba(122,142,196,.55)','rgba(122,142,196,.2)'),borderRadius:6},{label:'Actual',data:actualData,backgroundColor:gradientFill(ctx,'#f2cd9c','#d99a5b'),borderRadius:6},{label:'Total in hand',data:inHandData,backgroundColor:gradientFill(ctx,'#6ee7b7','#34d399'),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:TICK_COLOR}}},scales:{y:{beginAtZero:true,grid:{color:GRID_COLOR},ticks:{color:TICK_COLOR,callback:v=>money(v)}},x:{grid:{display:false},ticks:{color:TICK_COLOR}}}}});
+chartInstance=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Planned',data:plannedData,backgroundColor:gradientFill(ctx,'#60a5fa','#3b82f6'),borderRadius:6},{label:'Actual',data:actualData,backgroundColor:gradientFill(ctx,'#fb923c','#ec4899'),borderRadius:6},{label:'Total in hand',data:inHandData,backgroundColor:gradientFill(ctx,'#6ee7b7','#34d399'),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:TICK_COLOR}}},scales:{y:{beginAtZero:true,grid:{color:GRID_COLOR},ticks:{color:TICK_COLOR,callback:v=>money(v)}},x:{grid:{display:false},ticks:{color:TICK_COLOR}}}}});
 }}
 $$('.nav-item[data-nav]').forEach(b=>b.addEventListener('click',()=>{const p=b.dataset.nav; showPane(p); if(p==='charts') renderChart(chartPeriod)}));
 $('#chartPeriod').addEventListener('click',e=>{const b=e.target.closest('button[data-period]'); if(!b)return; $$('#chartPeriod button').forEach(x=>x.classList.toggle('active',x===b)); renderChart(b.dataset.period)});
