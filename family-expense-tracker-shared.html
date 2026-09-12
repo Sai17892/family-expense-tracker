@@ -51,6 +51,18 @@
     <div class="actions"><button id="inviteBtn" class="soft">Invite spouse</button><button id="setPasswordBtn">Set password</button><button id="logoutBtn">Sign out</button></div>
   </div>
   <div id="mainMsg"></div>
+  <div class="card" id="incomeCard" style="margin-bottom:14px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
+      <div style="min-width:0">
+        <h3 style="margin:0 0 8px">Money in hand this month</h3>
+        <div id="incomeRows" style="display:flex;gap:10px;flex-wrap:wrap"></div>
+      </div>
+      <div style="display:flex;gap:28px;flex-wrap:wrap">
+        <div><span class="muted">Total in hand</span><br><b id="incomeTotal" style="font-size:22px">₹0</b></div>
+        <div><span class="muted">Balance after spending</span><br><b id="incomeBalance" style="font-size:22px">₹0</b></div>
+      </div>
+    </div>
+  </div>
   <div class="toolbar">
     <div class="toolbar-left"><label class="muted">Month</label><input id="monthPicker" type="month" style="width:auto"><button id="copyRecurring">Copy recurring from previous month</button></div>
     <div class="toolbar-right"><button id="addBtn" class="primary">+ Add expense</button></div>
@@ -70,7 +82,6 @@
       <button id="mobileAdd" class="primary fab">+ Add expense</button>
     </div>
     <div class="side">
-      <div class="card"><h3 style="margin-top:0">Money in hand this month</h3><div id="incomeRows" class="members"></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center"><span class="muted">Total in hand</span><b id="incomeTotal">₹0</b></div><div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center"><span class="muted">Balance after spending</span><b id="incomeBalance">₹0</b></div></div>
       <div class="card"><h3 style="margin-top:0">Household</h3><div id="members" class="members"></div></div>
       <div class="card"><h3 style="margin-top:0">Recent activity</h3><div id="activity" class="activity"></div></div>
     </div>
@@ -106,7 +117,7 @@ const {data:hm,error}=await sb.from('household_members').select('household_id,ro
 async function loadAll(){if(!$('#monthPicker').value) $('#monthPicker').value=currentMonth(); $('#householdLabel').textContent=household.name; $('#userLabel').textContent=nameFor(user.id)||user.email; await Promise.all([loadExpenses(),loadMembers(),loadActivity()]); await loadIncome();}
 async function loadExpenses(){const {data,error}=await sb.from('expenses').select('*').eq('household_id',household.id).eq('month',$('#monthPicker').value).order('created_at'); if(error){msg($('#mainMsg'),error.message);return} expenses=data||[]; renderExpenses()}
 async function loadIncome(){const m=$('#monthPicker').value; const {data,error}=await sb.from('monthly_income').select('user_id,amount').eq('household_id',household.id).eq('month',m); if(error){$('#incomeRows').innerHTML=`<div class="error">${esc(error.message)}</div>`;return} const byUser={}; (data||[]).forEach(r=>byUser[r.user_id]=Number(r.amount)); const total=Object.values(byUser).reduce((s,n)=>s+n,0); const actual=expenses.reduce((s,e)=>s+Number(e.actual||0),0);
-$('#incomeRows').innerHTML=members.map(mem=>{const amt=byUser[mem.user_id]||0,nm=nameFor(mem.user_id);return `<div class="member"><div class="member-left"><div class="avatar">${esc(nm[0]||'?')}</div><div><b>${esc(nm)}${mem.user_id===user.id?' (You)':''}</b><div class="muted">${money(amt)}</div></div></div>${mem.user_id===user.id?'<button type="button" class="editIncome small">Edit</button>':''}</div>`}).join('')||'<div class="muted">No members yet.</div>';
+$('#incomeRows').innerHTML=members.map(mem=>{const amt=byUser[mem.user_id]||0,nm=nameFor(mem.user_id);return `<div style="display:flex;align-items:center;gap:8px;background:var(--accent2);border:1px solid #dbe7ff;border-radius:999px;padding:5px 6px 5px 5px"><div class="avatar" style="width:24px;height:24px;font-size:11px">${esc(nm[0]||'?')}</div><span style="font-size:13px"><b>${esc(nm)}${mem.user_id===user.id?' (You)':''}</b> · ${money(amt)}</span>${mem.user_id===user.id?'<button type="button" class="editIncome small" style="padding:4px 9px;border-radius:999px">Edit</button>':''}</div>`}).join('')||'<div class="muted">No members yet.</div>';
 $('#incomeTotal').textContent=money(total); $('#incomeBalance').textContent=money(total-actual);
 $$('.editIncome').forEach(b=>b.addEventListener('click',async()=>{const cur=byUser[user.id]||0;const raw=prompt('Your money in hand for '+m+':',cur);if(raw===null)return;const next=Number(raw);if(isNaN(next)||next<0){alert('Enter a valid non-negative number.');return}const {error}=await sb.from('monthly_income').upsert({household_id:household.id,user_id:user.id,month:m,amount:next,updated_at:new Date().toISOString()},{onConflict:'household_id,user_id,month'});if(error){alert(error.message);return}await loadIncome()}))}
 async function loadMembers(){const {data}=await sb.from('household_members').select('user_id,role,joined_at').eq('household_id',household.id); members=data||[]; await loadProfiles(members.map(m=>m.user_id)); $('#userLabel').textContent=nameFor(user.id); $('#members').innerHTML=members.map(m=>{const nm=nameFor(m.user_id);return `<div class="member"><div class="member-left"><div class="avatar">${esc(nm[0]||'?')}</div><div><b>${esc(nm)}${m.user_id===user.id?' (You)':''}</b><div class="muted">${m.role}</div></div></div>${m.user_id===user.id?'<button type="button" class="renameSelf small">Rename</button>':'<span class="pill">Shared</span>'}</div>`}).join('')||'<div class="muted">Only you so far.</div>'; $$('.renameSelf').forEach(b=>b.addEventListener('click',async()=>{const cur=nameFor(user.id);const next=prompt('Your display name (shown to household members):',cur);if(!next||!next.trim()||next.trim()===cur)return;const {error}=await sb.from('profiles').update({display_name:next.trim()}).eq('id',user.id);if(error){alert(error.message);return}profileMap[user.id]=next.trim();await Promise.all([loadMembers(),loadActivity()])}))}
