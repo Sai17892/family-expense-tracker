@@ -61,6 +61,15 @@ create table if not exists public.activity_log (
   created_at timestamptz not null default now()
 );
 
+-- Friendly display names, so "who did what" can be shown in the UI
+-- instead of just a bare email/user id.
+create table if not exists public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email text not null,
+  display_name text,
+  created_at timestamptz not null default now()
+);
+
 -- Helper functions avoid recursive RLS lookups.
 create or replace function public.is_household_member(p_household uuid)
 returns boolean language sql stable security definer set search_path = public as $$
@@ -141,6 +150,7 @@ alter table public.household_members enable row level security;
 alter table public.invitations enable row level security;
 alter table public.expenses enable row level security;
 alter table public.activity_log enable row level security;
+alter table public.profiles enable row level security;
 
 -- households
 create policy "members read households" on public.households for select to authenticated
@@ -177,8 +187,23 @@ using (public.is_household_member(household_id));
 create policy "members read activity" on public.activity_log for select to authenticated
 using (public.is_household_member(household_id));
 
+-- profiles (display names shown in the UI for "who did what")
+create policy "household members read profiles" on public.profiles for select to authenticated
+using (
+  id = auth.uid() or exists (
+    select 1 from public.household_members hm1
+    join public.household_members hm2 on hm1.household_id = hm2.household_id
+    where hm1.user_id = auth.uid() and hm2.user_id = profiles.id
+  )
+);
+create policy "users insert own profile" on public.profiles for insert to authenticated
+with check (id = auth.uid());
+create policy "users update own profile" on public.profiles for update to authenticated
+using (id = auth.uid()) with check (id = auth.uid());
+
 -- Grants
 grant usage on schema public to authenticated;
-grant select on public.households, public.household_members, public.invitations, public.expenses, public.activity_log to authenticated;
+grant select on public.households, public.household_members, public.invitations, public.expenses, public.activity_log, public.profiles to authenticated;
 grant insert, update, delete on public.invitations, public.expenses to authenticated;
+grant insert, update on public.profiles to authenticated;
 grant delete on public.household_members to authenticated;
