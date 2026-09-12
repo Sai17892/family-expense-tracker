@@ -70,6 +70,18 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now()
 );
 
+-- Each household member's own money-in-hand for a given month, so the
+-- app can show actual spend against what's really available, not just
+-- planned budget vs actual.
+create table if not exists public.monthly_income (
+  household_id uuid not null references public.households(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  month text not null check (month ~ '^[0-9]{4}-[0-9]{2}$'),
+  amount numeric(12,2) not null default 0 check (amount >= 0),
+  updated_at timestamptz not null default now(),
+  primary key (household_id, user_id, month)
+);
+
 -- Helper functions avoid recursive RLS lookups.
 create or replace function public.is_household_member(p_household uuid)
 returns boolean language sql stable security definer set search_path = public as $$
@@ -151,6 +163,7 @@ alter table public.invitations enable row level security;
 alter table public.expenses enable row level security;
 alter table public.activity_log enable row level security;
 alter table public.profiles enable row level security;
+alter table public.monthly_income enable row level security;
 
 -- households
 create policy "members read households" on public.households for select to authenticated
@@ -201,9 +214,18 @@ with check (id = auth.uid());
 create policy "users update own profile" on public.profiles for update to authenticated
 using (id = auth.uid()) with check (id = auth.uid());
 
+-- monthly income
+create policy "members read income" on public.monthly_income for select to authenticated
+using (public.is_household_member(household_id));
+create policy "members insert own income" on public.monthly_income for insert to authenticated
+with check (public.is_household_member(household_id) and user_id = auth.uid());
+create policy "members update own income" on public.monthly_income for update to authenticated
+using (public.is_household_member(household_id) and user_id = auth.uid())
+with check (user_id = auth.uid());
+
 -- Grants
 grant usage on schema public to authenticated;
-grant select on public.households, public.household_members, public.invitations, public.expenses, public.activity_log, public.profiles to authenticated;
+grant select on public.households, public.household_members, public.invitations, public.expenses, public.activity_log, public.profiles, public.monthly_income to authenticated;
 grant insert, update, delete on public.invitations, public.expenses to authenticated;
-grant insert, update on public.profiles to authenticated;
+grant insert, update on public.profiles, public.monthly_income to authenticated;
 grant delete on public.household_members to authenticated;
