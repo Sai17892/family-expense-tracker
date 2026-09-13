@@ -42,6 +42,7 @@ create table if not exists public.expenses (
   completed boolean not null default false,
   recurring boolean not null default false,
   notes text,
+  paid_by uuid references auth.users(id),
   created_by uuid not null references auth.users(id),
   updated_by uuid not null references auth.users(id),
   created_at timestamptz not null default now(),
